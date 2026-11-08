@@ -8,6 +8,12 @@ from content import SITE, INTRO, PROJECTS, ABOUT
 
 DIMS = json.load(open(os.path.join(HERE, "dims.json")))
 
+import hashlib
+def ver(path):
+    return hashlib.md5(open(os.path.join(ROOT, path), "rb").read()).hexdigest()[:8]
+CSS_V = ver("assets/site.css")
+JS_V = ver("assets/site.js")
+
 
 def img(key, sizes="100vw", cls="", eager=False, alt=""):
     w, h = DIMS[key]
@@ -45,7 +51,7 @@ def head(title, desc, path, body_cls=""):
 <link rel="canonical" href="{SITE['url']}{path}">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="preload" href="/assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v={CSS_V}">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="{body_cls}">
@@ -65,17 +71,20 @@ def head(title, desc, path, body_cls=""):
 """
 
 
-FOOT = """</main>
+FOOT_T = """</main>
 <footer class="foot">
   <span>© Bastian Øster Fynboe</span>
   <span>Copenhagen</span>
   <a href="#main">Back to top</a>
 </footer>
 <div class="preview" aria-hidden="true"></div>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v=JSV" defer></script>
 </body>
 </html>
 """
+
+
+FOOT = FOOT_T.replace("JSV", JS_V)
 
 
 def contact_block():

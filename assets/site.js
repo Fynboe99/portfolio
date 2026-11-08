@@ -4,6 +4,29 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+  // Image reveals, once, as they scroll into view
+  var figs = document.querySelectorAll('.reveal-img');
+  if (!('IntersectionObserver' in window) || reduce) {
+    figs.forEach(function (f) { f.classList.add('in'); });
+  } else {
+    var fo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); fo.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.01 });
+    figs.forEach(function (f) { fo.observe(f); });
+  }
+
+  // The logo swirl turns with the page
+  var mark = document.querySelector('.brand-mark');
+  if (mark && !reduce) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () { mark.style.setProperty('--spin', (window.scrollY * 0.12) + 'deg'); ticking = false; });
+    }, { passive: true });
+  }
+
   // Videos
   var vids = document.querySelectorAll('video');
   if ('IntersectionObserver' in window) {

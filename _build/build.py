@@ -44,6 +44,14 @@ def deco(name, cls):
     return f'<img class="deco {cls}" src="/assets/deco/{name}.webp" alt="" aria-hidden="true" loading="lazy">'
 
 
+def words(text):
+    return " ".join(f'<span class="w"><span style="--i:{i}">{w}</span></span>' for i, w in enumerate(text.split()))
+
+
+def vt(slug):
+    return "t-" + slug.replace("-", "")
+
+
 def caption(text):
     return f'<figcaption>{text}</figcaption>' if text else ""
 
@@ -119,7 +127,7 @@ def index():
     h.append(f"""
 <section class="hero intro-seq">
   <div class="hero-text">
-    <h1 class="hello">{INTRO['hello']}</h1>
+    <h1 class="hello">{words(INTRO['hello'])}</h1>
     <p class="hero-lead">{INTRO['text']}</p>
   </div>
   <div class="hero-face">{video('portrait')}</div>
@@ -133,7 +141,7 @@ def index():
         h.append(f"""
     <li>
       <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp" data-ratio="{DIMS[p['cover']][0] / DIMS[p['cover']][1]:.4f}">
-        <span class="row-title">{p['title']}{deco('spiral-blue', 'row-spiral')}</span>
+        <span class="row-title" style="view-transition-name: {vt(p['slug'])}">{p['title']}{deco('spiral-blue', 'row-spiral')}</span>
         <span class="row-kind">{p['kind']}</span>
         <span class="row-year">{p['year']}</span>
         <span class="row-thumb">{img(p['cover'], '(max-width: 800px) 100vw, 1px', alt='')}</span>
@@ -163,12 +171,12 @@ def block_html(b):
         return f'<section class="text-block"><span class="label">{label}</span><p>{text}</p></section>'
     if kind == "full":
         _, key, cap = b
-        return f'<figure class="fig fig--full">{img(key, "(min-width: 900px) 92vw, 100vw")}{caption(cap)}</figure>'
+        return f'<figure class="fig fig--full reveal-img">{img(key, "(min-width: 900px) 92vw, 100vw")}{caption(cap)}</figure>'
     if kind in ("pair", "trio"):
         _, keys, cap = b
         sz = "(min-width: 900px) 46vw, 50vw" if kind == "pair" else "(min-width: 900px) 30vw, 33vw"
         cells = flex_cells(keys, lambda k: img(k, sz))
-        return f'<figure class="fig fig--row"><div class="row-fig">{cells}</div>{caption(cap)}</figure>'
+        return f'<figure class="fig fig--row reveal-img"><div class="row-fig">{cells}</div>{caption(cap)}</figure>'
     if kind == "videos":
         _, names, cap = b
         cls = "fig--row" if len(names) > 1 else "fig--solo"
@@ -190,7 +198,7 @@ def case(i, p):
 <article class="case">
   <header class="case-head intro-seq">
     <a class="back" href="/#work">All work</a>
-    <h1 class="case-title">{p['title']}</h1>
+    <h1 class="case-title" style="view-transition-name: {vt(p['slug'])}">{p['title']}</h1>
     <p class="case-lead">{p['lead']}</p>
     <div class="case-meta">{meta}</div>
   </header>
@@ -200,7 +208,7 @@ def case(i, p):
   </div>
   <a class="next" href="/work/{nxt['slug']}/">
     <span class="label">Next project</span>
-    <span class="next-title">{nxt['title']} {deco('spiral-blue', 'next-spiral')}</span>
+    <span class="next-title"><span style="view-transition-name: {vt(nxt['slug'])}">{nxt['title']}</span> {deco('spiral-blue', 'next-spiral')}</span>
   </a>
 </article>
 """)

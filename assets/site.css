@@ -74,8 +74,8 @@ a { color: inherit; text-decoration: none; }
   -webkit-backdrop-filter: blur(12px);
 }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; font-size: 16px; letter-spacing: -.01em; }
-.brand-mark { width: 28px; height: 28px; object-fit: contain; transition: transform .5s var(--spring); }
-.brand:hover .brand-mark { transform: rotate(90deg) scale(1.08); }
+.brand-mark { width: 28px; height: 28px; object-fit: contain; rotate: var(--spin, 0deg); transition: scale .3s var(--spring); }
+.brand:hover .brand-mark { scale: 1.15; }
 .top nav { display: flex; gap: clamp(16px, 2.5vw, 32px); font-size: 15px; }
 
 main { padding: 0 var(--pad); overflow-x: hidden; overflow-x: clip; }
@@ -266,18 +266,43 @@ figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 6
 .next-spiral { top: 50%; left: 100%; width: .6em; margin-left: .15em; transform: translateY(-50%) rotate(0deg); transition: transform .6s var(--spring); }
 .next:hover .next-spiral { transform: translateY(-50%) rotate(200deg) scale(1.08); }
 
+/* Page-to-page: the project title travels from the list into the case page */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; animation-timing-function: var(--ease); }
+::view-transition-group(*) { animation-duration: .55s; animation-timing-function: var(--ease-io); }
+
 /* One orchestrated entrance, on load only */
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
 @keyframes fade { from { opacity: 0; } }
-.intro-seq .hello, .intro-seq .case-title { animation: rise .9s var(--ease) both; }
-.intro-seq .hero-lead, .intro-seq .case-lead { animation: rise .9s var(--ease) .12s both; }
-.intro-seq .hero-face { animation: rise 1s var(--ease) .24s both; }
-.intro-seq .facts, .intro-seq .case-meta { animation: fade .8s ease .4s both; }
-.intro-seq .deco { animation: fade 1.6s ease .3s both; }
+@keyframes word { from { transform: translateY(105%); } }
+@keyframes settle { from { opacity: 0; transform: scale(.96); } }
+.hello .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; margin-bottom: -.06em; }
+.hello .w > span { display: inline-block; animation: word .9s var(--ease) both; animation-delay: calc(var(--i) * 90ms); }
+.intro-seq .hero-lead { animation: rise .8s var(--ease) .28s both; }
+.intro-seq .hero-face { animation: settle 1.1s var(--ease) .15s both; transform-origin: 60% 60%; }
+.intro-seq .facts { animation: fade .8s ease .5s both; }
+.intro-seq .case-title { animation: rise .8s var(--ease) both; }
+.intro-seq .case-lead { animation: rise .8s var(--ease) .1s both; }
+.intro-seq .case-meta { animation: fade .8s ease .25s both; }
+
+/* Images wipe in from the bottom as they enter the viewport, once */
+.js .reveal-img .row-fig, .js .reveal-img > img { clip-path: inset(0 0 100% 0); transition: clip-path 1.1s var(--ease-io); }
+.js .reveal-img img, .js .reveal-img video { transform: scale(1.06); transition: transform 1.4s var(--ease); }
+.js .reveal-img.in .row-fig, .js .reveal-img.in > img { clip-path: inset(0 0 0 0); }
+.js .reveal-img.in img, .js .reveal-img.in video { transform: none; }
+.js .reveal-img figcaption { opacity: 0; transition: opacity .6s ease .5s; }
+.js .reveal-img.in figcaption { opacity: 1; }
+.case-cover { overflow: hidden; }
+.intro-seq ~ .case-cover .cover-media, .case-cover .cover-media { animation: settle 1.2s var(--ease) .1s both; }
+
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .intro-seq *, .intro-seq .deco { animation: none !important; }
+  .intro-seq *, .intro-seq .deco, .hello .w > span, .case-cover .cover-media { animation: none !important; }
+  .js .reveal-img .row-fig, .js .reveal-img > img { clip-path: none; transition: none; }
+  .js .reveal-img img, .js .reveal-img video { transform: none; transition: none; }
+  .js .reveal-img figcaption { opacity: 1; }
+  ::view-transition-group(*), ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
   .row-title, .row-spiral, .brand-mark, .next-spiral, .preview { transition: none; }
 }
 

@@ -23,7 +23,7 @@ def img(key, sizes="100vw", cls="", eager=False, alt=""):
             f'sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" decoding="async" {load}>')
 
 
-VID_DIMS = {"glyptoteket": (1000, 1000), "dovely": (1280, 720), "vk-horse": (720, 520), "vakkerbo-hero": (1600, 844), "portrait": (900, 900)}
+VID_DIMS = {"glyptoteket": (1000, 1000), "dovely": (1280, 720), "vk-horse": (720, 520), "vakkerbo-hero": (1600, 844), "portrait": (900, 700)}
 
 
 def flex_cells(items, render):
@@ -103,7 +103,6 @@ def contact_block():
     tel = SITE['phone'].replace(' ', '')
     return f"""
 <section class="contact" id="contact">
-  {deco('spiral-pink', 'contact-spiral')}
   <div class="contact-text">
     <p class="contact-line">Send me an email, a text or call, and I'll look like this&nbsp;→</p>
     <a class="contact-mail" href="mailto:{SITE['email']}">{SITE['email']}</a>
@@ -119,8 +118,6 @@ def index():
     facts = "".join(f'<div class="fact"><span class="label">{k}</span><span>{v}</span></div>' for k, v in INTRO["facts"])
     h.append(f"""
 <section class="hero intro-seq">
-  {deco('dots-blue', 'hero-dots')}
-  {deco('flower', 'hero-flower')}
   <div class="hero-text">
     <h1 class="hello">{INTRO['hello']}</h1>
     <p class="hero-lead">{INTRO['text']}</p>
@@ -150,7 +147,6 @@ def index():
     body = "".join(f'<p >{x}</p>' for x in ABOUT["body"])
     h.append(f"""
 <section class="about" id="about">
-  {deco('ring', 'about-ring')}
   <div class="about-body">{body}</div>
   <div class="about-lists">{lists}</div>
 </section>
@@ -193,7 +189,6 @@ def case(i, p):
     h.append(f"""
 <article class="case">
   <header class="case-head intro-seq">
-    {deco(dots, 'case-dots')}
     <a class="back" href="/#work">All work</a>
     <h1 class="case-title">{p['title']}</h1>
     <p class="case-lead">{p['lead']}</p>

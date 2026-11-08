@@ -46,7 +46,7 @@
   window.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; if (active) start(); }, { passive: true });
 
   // Doodles drift gently with the mouse
-  var decos = document.querySelectorAll('.hero-dots, .hero-flower, .about-ring, .case-dots, .contact-spiral');
+  var decos = document.querySelectorAll('.deco-drift');
   var tx = 0, ty = 0, cx = 0, cy = 0, drifting = false;
   function drift() {
     cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;

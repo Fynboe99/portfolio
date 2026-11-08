@@ -84,8 +84,8 @@ section, header, figure, .case-body > * { position: relative; }
 /* Hero */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: end;
   column-gap: clamp(24px, 5vw, 80px);
   min-height: calc(100svh - 64px);
   padding: clamp(40px, 8vh, 96px) 0 clamp(32px, 6vh, 64px);
@@ -108,8 +108,8 @@ section, header, figure, .case-body > * { position: relative; }
   font-variation-settings: "opsz" 32;
   letter-spacing: -.01em;
 }
-.hero-face { justify-self: end; width: min(100%, 560px); }
-.hero-face video, .contact-face video { width: 100%; aspect-ratio: 1; object-fit: cover; mix-blend-mode: multiply; }
+.hero-face { justify-self: end; width: min(100%, 640px); margin-right: -4%; }
+.hero-face video, .contact-face video { width: 100%; aspect-ratio: 900 / 700; mix-blend-mode: multiply; }
 .hero-dots { top: 0; right: -16%; width: min(40vw, 620px); opacity: .5; }
 .hero-flower { left: -9%; bottom: -14%; width: min(26vw, 380px); opacity: .45; }
 
@@ -130,7 +130,7 @@ section, header, figure, .case-body > * { position: relative; }
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto 9ch;
-  align-items: baseline;
+  align-items: center;
   column-gap: clamp(12px, 2vw, 28px);
   padding: clamp(14px, 2.2vh, 22px) 0;
 }
@@ -287,7 +287,7 @@ figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 6
   .brand span { font-size: 15px; }
   .top nav { font-size: 14px; gap: 14px; }
   .hero { grid-template-columns: 1fr; min-height: 0; padding-top: 32px; }
-  .hero-face { justify-self: start; width: 82%; margin-top: 28px; }
+  .hero-face { justify-self: center; width: 108%; margin: 20px 0 0; }
   .hero-dots { width: 90vw; top: 30%; right: -20%; }
   .hero-flower { width: 52vw; bottom: auto; top: 6%; left: auto; right: -14%; opacity: .5; }
   .facts, .about-lists, .case-meta { grid-template-columns: 1fr; gap: 16px; }
@@ -301,7 +301,7 @@ figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 6
   .about-body { columns: 1; }
   .about-ring { width: 50vw; top: 6%; right: -12%; }
   .contact { grid-template-columns: 1fr; }
-  .contact-face { justify-self: start; width: 70%; }
+  .contact-face { justify-self: center; width: 100%; }
   .contact-spiral { left: auto; right: 6%; top: 18%; width: 80px; }
   .text-block { grid-template-columns: 1fr; gap: 8px; }
   .case-dots { width: 90vw; right: -30%; }

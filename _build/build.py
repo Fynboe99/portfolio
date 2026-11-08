@@ -22,11 +22,15 @@ def video(name, cls=""):
             f'muted loop playsinline autoplay preload="metadata"></video>')
 
 
+def deco(name, cls):
+    return f'<img class="deco {cls}" src="/assets/deco/{name}.webp" alt="" aria-hidden="true" loading="lazy">'
+
+
 def caption(text):
     return f'<figcaption>{text}</figcaption>' if text else ""
 
 
-def head(title, desc, path):
+def head(title, desc, path, body_cls=""):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -34,21 +38,23 @@ def head(title, desc, path):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<meta name="theme-color" content="#fefcf0">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{SITE['url']}/assets/img/mtpl-cover-2000.webp">
 <link rel="canonical" href="{SITE['url']}{path}">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="preload" href="/assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body class="{body_cls}">
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
-  <a class="brand" href="/">{SITE['name']}</a>
+  <a class="brand" href="/" aria-label="Bastian Fynboe, home">
+    <img class="brand-mark" src="/assets/deco/logo.webp" alt="" width="28" height="28">
+    <span>Bastian Fynboe</span>
+  </a>
   <nav>
     <a href="/#work">Work</a>
     <a href="/#about">About</a>
@@ -63,8 +69,9 @@ FOOT = """</main>
 <footer class="foot">
   <span>© Bastian Øster Fynboe</span>
   <span>Copenhagen</span>
-  <a href="#main" class="totop">Back to top ↑</a>
+  <a href="#main">Back to top</a>
 </footer>
+<div class="preview" aria-hidden="true"></div>
 <script src="/assets/site.js" defer></script>
 </body>
 </html>
@@ -72,54 +79,59 @@ FOOT = """</main>
 
 
 def contact_block():
+    tel = SITE['phone'].replace(' ', '')
     return f"""
 <section class="contact" id="contact">
-  <p class="label reveal">Contact</p>
-  <a class="contact-mail reveal" href="mailto:{SITE['email']}">{SITE['email']}</a>
-  <p class="contact-sub reveal">Or call <a href="tel:{SITE['phone'].replace(' ', '')}">{SITE['phone']}</a>. Always happy to talk.</p>
+  {deco('spiral-pink', 'contact-spiral')}
+  <div class="contact-text">
+    <p class="contact-line">Send me an email, a text or call, and I'll look like this&nbsp;→</p>
+    <a class="contact-mail" href="mailto:{SITE['email']}">{SITE['email']}</a>
+    <a class="contact-phone" href="tel:{tel}">{SITE['phone']}</a>
+  </div>
+  <div class="contact-face">{video('portrait')}</div>
 </section>
 """
 
 
 def index():
-    h = [head(SITE["title"], SITE["description"], "/")]
+    h = [head(SITE["title"], SITE["description"], "/", "home")]
     facts = "".join(f'<div class="fact"><span class="label">{k}</span><span>{v}</span></div>' for k, v in INTRO["facts"])
     h.append(f"""
-<section class="intro">
-  <h1 class="statement reveal">{INTRO['statement']}</h1>
-  <div class="facts reveal">{facts}</div>
+<section class="hero intro-seq">
+  {deco('dots-blue', 'hero-dots')}
+  {deco('flower', 'hero-flower')}
+  <div class="hero-text">
+    <h1 class="hello">{INTRO['hello']}</h1>
+    <p class="hero-lead">{INTRO['text']}</p>
+  </div>
+  <div class="hero-face">{video('portrait')}</div>
+  <div class="facts">{facts}</div>
 </section>
 
 <section class="work" id="work">
-  <div class="section-head reveal"><span class="label">Selected projects</span><span class="label">{len(PROJECTS):02d}</span></div>
-  <div class="grid">
+  <ol class="index">
 """)
     for i, p in enumerate(PROJECTS):
-        size = "card--wide" if i < 2 else "card--half"
-        sizes = "(min-width: 900px) 90vw, 100vw" if i < 2 else "(min-width: 900px) 45vw, 100vw"
-        media = img(p["cover"], sizes=sizes, eager=(i == 0), alt=f"{p['title']} for {p['client']}")
         h.append(f"""
-    <a class="card {size} reveal" href="/work/{p['slug']}/">
-      <div class="card-media">{media}</div>
-      <div class="card-meta">
-        <span class="num">{i + 1:02d}</span>
-        <span class="card-title">{p['title']}</span>
-        <span class="card-kind">{p['kind']}</span>
-        <span class="card-year">{p['year']}</span>
-      </div>
-    </a>""")
-    h.append("\n  </div>\n</section>\n")
+    <li>
+      <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp">
+        <span class="row-title">{p['title']}{deco('spiral-blue', 'row-spiral')}</span>
+        <span class="row-kind">{p['kind']}</span>
+        <span class="row-year">{p['year']}</span>
+        <span class="row-thumb">{img(p['cover'], '(max-width: 800px) 100vw, 1px', alt='')}</span>
+      </a>
+    </li>""")
+    h.append("\n  </ol>\n</section>\n")
 
     lists = "".join(
         f'<div class="about-list"><span class="label">{t}</span><ul>' + "".join(f"<li>{x}</li>" for x in items) + "</ul></div>"
         for t, items in ABOUT["lists"])
-    body = "".join(f"<p>{x}</p>" for x in ABOUT["body"])
+    body = "".join(f'<p >{x}</p>' for x in ABOUT["body"])
     h.append(f"""
 <section class="about" id="about">
-  <p class="label reveal">About</p>
-  <p class="about-lead reveal">{ABOUT['lead']}</p>
-  <div class="about-body reveal">{body}</div>
-  <div class="about-lists reveal">{lists}</div>
+  {deco('ring', 'about-ring')}
+  <div class="about-body">{body}</div>
+  <div class="about-lists">{lists}</div>
 </section>
 """)
     h.append(contact_block())
@@ -131,45 +143,47 @@ def block_html(b):
     kind = b[0]
     if kind == "text":
         _, label, text = b
-        return f'<section class="text-block reveal"><span class="label">{label}</span><p>{text}</p></section>'
+        return f'<section class="text-block"><span class="label">{label}</span><p>{text}</p></section>'
     if kind == "full":
         _, key, cap = b
-        return f'<figure class="fig fig--full reveal">{img(key, "(min-width: 900px) 92vw, 100vw")}{caption(cap)}</figure>'
+        return f'<figure class="fig fig--full">{img(key, "(min-width: 900px) 92vw, 100vw")}{caption(cap)}</figure>'
     if kind in ("pair", "trio"):
         _, keys, cap = b
         sz = "(min-width: 900px) 46vw, 100vw" if kind == "pair" else "(min-width: 900px) 30vw, 100vw"
         imgs = "".join(f'<div class="cell">{img(k, sz)}</div>' for k in keys)
-        return f'<figure class="fig fig--{kind} reveal"><div class="row">{imgs}</div>{caption(cap)}</figure>'
+        return f'<figure class="fig fig--{kind}"><div class="row-fig">{imgs}</div>{caption(cap)}</figure>'
     if kind == "videos":
         _, names, cap = b
         vids = "".join(f'<div class="cell">{video(n)}</div>' for n in names)
-        return f'<figure class="fig fig--pair reveal"><div class="row">{vids}</div>{caption(cap)}</figure>'
+        return f'<figure class="fig fig--pair"><div class="row-fig">{vids}</div>{caption(cap)}</figure>'
     raise ValueError(kind)
 
 
 def case(i, p):
     nxt = PROJECTS[(i + 1) % len(PROJECTS)]
-    h = [head(f"{p['title']} — {SITE['name']}", p["lead"], f"/work/{p['slug']}/")]
+    h = [head(f"{p['title']} — {SITE['name']}", p["lead"], f"/work/{p['slug']}/", "case-page")]
     meta = "".join(f'<div><span class="label">{k}</span><span>{v}</span></div>' for k, v in p["meta"])
     if p.get("video"):
         cover = video(p["video"], "cover-media")
     else:
         cover = img(p["cover"], "100vw", "cover-media", eager=True, alt=f"{p['title']} for {p['client']}")
+    dots = 'dots-pink' if i % 2 else 'dots-blue'
     h.append(f"""
 <article class="case">
-  <header class="case-head">
-    <p class="label reveal"><span class="num">{i + 1:02d}</span> {p['kind']}</p>
-    <h1 class="case-title reveal">{p['title']}</h1>
-    <p class="case-lead reveal">{p['lead']}</p>
-    <div class="case-meta reveal">{meta}</div>
+  <header class="case-head intro-seq">
+    {deco(dots, 'case-dots')}
+    <a class="back" href="/#work">All work</a>
+    <h1 class="case-title">{p['title']}</h1>
+    <p class="case-lead">{p['lead']}</p>
+    <div class="case-meta">{meta}</div>
   </header>
-  <figure class="case-cover reveal">{cover}</figure>
+  <figure class="case-cover">{cover}</figure>
   <div class="case-body">
     {''.join(block_html(b) for b in p['blocks'])}
   </div>
-  <a class="next reveal" href="/work/{nxt['slug']}/">
+  <a class="next" href="/work/{nxt['slug']}/">
     <span class="label">Next project</span>
-    <span class="next-title">{nxt['title']} <span class="arrow">→</span></span>
+    <span class="next-title">{nxt['title']} {deco('spiral-blue', 'next-spiral')}</span>
   </a>
 </article>
 """)

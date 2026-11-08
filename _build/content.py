@@ -11,7 +11,8 @@ SITE = {
 }
 
 INTRO = {
-    "statement": "Brand and <em>visual identity</em> designer, based in Copenhagen.",
+        "hello": "Hi, I'm Bastian.",
+    "text": "I'm a brand and visual identity designer in Copenhagen. Before that I spent years in film and TV, so I care a lot about the story.",
     "facts": [
         ("Now", "Open to junior roles and freelance identity work"),
         ("Education", "KEA, Entrepreneurship &amp; Design, 2024–2026"),
@@ -25,7 +26,7 @@ PROJECTS = [
         "title": "Made to Play Longer",
         "client": "Palmes Tennis Society",
         "year": "2026",
-        "kind": "Brand strategy · Visual direction",
+        "kind": "Brand strategy, visual direction",
         "cover": "mtpl-cover",
         "lead": "A way for Palmes to talk about sustainability without pretending to be something it is not. Fewer pieces, better materials, and facts instead of green symbols.",
         "meta": [
@@ -49,7 +50,7 @@ PROJECTS = [
         "title": "Vakkerbo",
         "client": "Vakkerbo",
         "year": "2026",
-        "kind": "Visual identity · Website · Photography",
+        "kind": "Visual identity, website, photography",
         "cover": "vk-cover",
         "video": "vakkerbo-hero",
         "lead": "Identity, website and product photography for Vakkerbo, a new Danish studio for interior design, art and vintage.",
@@ -75,7 +76,7 @@ PROJECTS = [
         "title": "Munkholm",
         "client": "Munkholm",
         "year": "2025",
-        "kind": "Visual identity · Packaging",
+        "kind": "Visual identity, packaging",
         "cover": "mh-cover",
         "lead": "A modernised identity for Munkholm, a Danish soap and skincare brand. The goal was to make it relevant to today's market while respecting its heritage.",
         "meta": [
@@ -96,7 +97,7 @@ PROJECTS = [
         "title": "FLOK",
         "client": "FLOK",
         "year": "2024",
-        "kind": "Branding · Concept development",
+        "kind": "Branding, concept development",
         "cover": "flok-cover",
         "lead": "A brand identity for FLOK, a community concept built on creativity, togetherness and collaboration.",
         "meta": [
@@ -118,7 +119,7 @@ PROJECTS = [
         "title": "Folkets Drømme",
         "client": "KEA / 48 Timer Festival",
         "year": "2025",
-        "kind": "Concept · Installation design",
+        "kind": "Concept, installation design",
         "cover": "fd-cover",
         "lead": "An interactive installation in Folkets Park on Nørrebro that invited locals and visitors to share their dreams for the future.",
         "meta": [
@@ -138,7 +139,7 @@ PROJECTS = [
         "title": "Selected work",
         "client": "School &amp; self-initiated",
         "year": "2024–2026",
-        "kind": "Editorial · Posters · Motion · Illustration",
+        "kind": "Editorial, posters, motion, illustration",
         "cover": "sel-loop-1",
         "lead": "Smaller projects from an intensive graphic design course and things I make on my own. This is where I try things out.",
         "meta": [
@@ -156,10 +157,10 @@ PROJECTS = [
 ]
 
 ABOUT = {
-    "lead": "I grew up in Western Jutland, watching films with my grandparents on old VHS tapes. That led me to film school in Ebeltoft and to the film industry in Copenhagen, where I worked my way up from runner to production coordinator and 1st AD.",
     "body": [
-        "In 2024 I started Entrepreneurship &amp; Design at KEA and stumbled into graphic design. My very first project was a poster for a made-up event on Christianshavn. I had just downloaded Adobe and had never designed anything. I've been hooked since.",
-        "Today I work with brand and visual identity, and I bring the film years with me: calm under pressure, used to deadlines, and always thinking about the story. I don't see myself as a finished designer, and I hope I never will.",
+        "Since I was a small boy, I've been drawn to stories and visuals. Growing up in Western Jutland, I spent countless hours watching films with my grandparents on old VHS tapes. That led me to Ebeltoft Film Folk High School, and later to the film industry in Copenhagen, where I worked my way up from runner to production coordinator and 1st AD. It taught me to stay organised, creative and calm under pressure.",
+        "But film wasn't the full picture for me. In 2024 I started Entrepreneurship &amp; Design at KEA and stumbled into graphic design. My very first project was a poster for a made-up event on Christianshavn. I had just downloaded Adobe and had never designed anything. I would change a lot about it today, but from that moment on I was hooked.",
+        "I don't see myself as a finished designer, and I hope I never will. For me, design is about learning, experimenting and pushing myself, and about combining my film background, my roots and my love of visuals into something that feels both personal and professional.",
     ],
     "lists": [
         ("Experience", [

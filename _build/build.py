@@ -23,7 +23,7 @@ def img(key, sizes="100vw", cls="", eager=False, alt=""):
             f'sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" decoding="async" {load}>')
 
 
-VID_DIMS = {"glyptoteket": (1000, 1000), "dovely": (1280, 720), "vk-horse": (720, 520), "vakkerbo-hero": (1600, 844), "portrait": (900, 700)}
+VID_DIMS = {"glyptoteket": (1000, 1000), "dovely": (1280, 720), "vk-horse": (720, 520), "vakkerbo-hero": (1600, 844), "portrait": (900, 700), "palmes-horse": (720, 1280)}
 
 
 def flex_cells(items, render):
@@ -180,6 +180,8 @@ def block_html(b):
     if kind == "videos":
         _, names, cap = b
         cls = "fig--row" if len(names) > 1 else "fig--solo"
+        if len(names) == 1 and VID_DIMS[names[0]][1] > VID_DIMS[names[0]][0]:
+            cls += " tall"
         cells = flex_cells(names, lambda n: video(n))
         return f'<figure class="fig {cls}"><div class="row-fig">{cells}</div>{caption(cap)}</figure>'
     raise ValueError(kind)

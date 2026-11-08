@@ -254,6 +254,7 @@ section, header, figure, .case-body > * { position: relative; }
 .fig .cell { min-width: 0; }
 .fig .cell img, .fig .cell video, .fig--full img { width: 100%; height: auto; }
 .fig--solo .row-fig { max-width: 720px; margin: 0 auto; }
+.fig--solo.tall .row-fig { max-width: 420px; }
 .fig--solo figcaption { text-align: center; margin-left: auto; margin-right: auto; }
 figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 60ch; }
 

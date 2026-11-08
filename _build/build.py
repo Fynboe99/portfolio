@@ -23,6 +23,18 @@ def img(key, sizes="100vw", cls="", eager=False, alt=""):
             f'sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" decoding="async" {load}>')
 
 
+VID_DIMS = {"glyptoteket": (1000, 1000), "dovely": (1280, 720), "vk-horse": (720, 520), "vakkerbo-hero": (1600, 844), "portrait": (900, 900)}
+
+
+def flex_cells(items, render):
+    """Row of images/videos with equal heights and no cropping: each cell grows by its aspect ratio."""
+    out = []
+    for k in items:
+        w, h = DIMS[k] if k in DIMS else VID_DIMS[k]
+        out.append(f'<div class="cell" style="flex: {w / h:.4f} 1 0">{render(k)}</div>')
+    return "".join(out)
+
+
 def video(name, cls=""):
     return (f'<video class="{cls}" src="/assets/video/{name}.mp4" poster="/assets/video/{name}.jpg" '
             f'muted loop playsinline autoplay preload="metadata"></video>')
@@ -123,7 +135,7 @@ def index():
     for i, p in enumerate(PROJECTS):
         h.append(f"""
     <li>
-      <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp">
+      <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp" data-ratio="{DIMS[p['cover']][0] / DIMS[p['cover']][1]:.4f}">
         <span class="row-title">{p['title']}{deco('spiral-blue', 'row-spiral')}</span>
         <span class="row-kind">{p['kind']}</span>
         <span class="row-year">{p['year']}</span>
@@ -158,13 +170,14 @@ def block_html(b):
         return f'<figure class="fig fig--full">{img(key, "(min-width: 900px) 92vw, 100vw")}{caption(cap)}</figure>'
     if kind in ("pair", "trio"):
         _, keys, cap = b
-        sz = "(min-width: 900px) 46vw, 100vw" if kind == "pair" else "(min-width: 900px) 30vw, 100vw"
-        imgs = "".join(f'<div class="cell">{img(k, sz)}</div>' for k in keys)
-        return f'<figure class="fig fig--{kind}"><div class="row-fig">{imgs}</div>{caption(cap)}</figure>'
+        sz = "(min-width: 900px) 46vw, 50vw" if kind == "pair" else "(min-width: 900px) 30vw, 33vw"
+        cells = flex_cells(keys, lambda k: img(k, sz))
+        return f'<figure class="fig fig--row"><div class="row-fig">{cells}</div>{caption(cap)}</figure>'
     if kind == "videos":
         _, names, cap = b
-        vids = "".join(f'<div class="cell">{video(n)}</div>' for n in names)
-        return f'<figure class="fig fig--pair"><div class="row-fig">{vids}</div>{caption(cap)}</figure>'
+        cls = "fig--row" if len(names) > 1 else "fig--solo"
+        cells = flex_cells(names, lambda n: video(n))
+        return f'<figure class="fig {cls}"><div class="row-fig">{cells}</div>{caption(cap)}</figure>'
     raise ValueError(kind)
 
 

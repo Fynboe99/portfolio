@@ -37,6 +37,7 @@
   rows.forEach(function (r) {
     r.addEventListener('mouseenter', function (e) {
       preview.style.backgroundImage = 'url(' + r.dataset.preview + ')';
+      preview.style.setProperty('--ratio', r.dataset.ratio || 1.333);
       if (!active) { px = e.clientX; py = e.clientY; }
       active = true; preview.classList.add('on'); start();
     });

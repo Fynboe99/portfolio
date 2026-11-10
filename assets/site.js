@@ -23,7 +23,7 @@
     var ticking = false;
     window.addEventListener('scroll', function () {
       if (ticking) return; ticking = true;
-      requestAnimationFrame(function () { mark.style.setProperty('--spin', (window.scrollY * 0.12) + 'deg'); ticking = false; });
+      requestAnimationFrame(function () { mark.style.setProperty('--spin', (Math.round(window.scrollY * 0.12 / 15) * 15) + 'deg'); ticking = false; });
     }, { passive: true });
   }
 

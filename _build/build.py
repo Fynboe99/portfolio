@@ -131,6 +131,7 @@ def index():
     <p class="hero-lead">{INTRO['text']}</p>
   </div>
   <div class="hero-face"><img class="face-photo" src="/assets/img/portrait-photo.webp" width="359" height="391" alt="Bastian Fynboe"></div>
+  <div class="facts">{facts}</div>
 </section>
 
 <section class="work" id="work">
@@ -142,6 +143,8 @@ def index():
       <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp" data-ratio="{DIMS[p['cover']][0] / DIMS[p['cover']][1]:.4f}">
         <span class="row-thumb">{img(p['cover'], '(max-width: 800px) 100vw, 200px', alt='')}</span>
         <span class="row-title" style="view-transition-name: {vt(p['slug'])}">{p['title']}</span>
+        <span class="row-kind">{p['kind']}</span>
+        <span class="row-year">{p['year']}</span>
       </a>
     </li>""")
     h.append("\n  </ol>\n</section>\n")
@@ -187,7 +190,7 @@ def block_html(b):
 def case(i, p):
     nxt = PROJECTS[(i + 1) % len(PROJECTS)]
     h = [head(f"{p['title']} — {SITE['name']}", p["lead"], f"/work/{p['slug']}/", "case-page")]
-    meta = "<p>" + "<br>".join(v for k, v in p["meta"]) + "</p>"
+    meta = "".join(f'<div><span class="label">{k}</span><span>{v}</span></div>' for k, v in p["meta"])
     if p.get("video"):
         cover = video(p["video"], "cover-media")
     else:
@@ -206,7 +209,8 @@ def case(i, p):
     {''.join(block_html(b) for b in p['blocks'])}
   </div>
   <a class="next" href="/work/{nxt['slug']}/">
-    <span class="next-title">Next: <span style="view-transition-name: {vt(nxt['slug'])}">{nxt['title']}</span></span>
+    <span class="label">Next project</span>
+    <span class="next-title"><span style="view-transition-name: {vt(nxt['slug'])}">{nxt['title']}</span></span>
   </a>
 </article>
 """)

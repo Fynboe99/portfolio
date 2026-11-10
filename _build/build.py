@@ -141,10 +141,10 @@ def index():
         h.append(f"""
     <li>
       <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp" data-ratio="{DIMS[p['cover']][0] / DIMS[p['cover']][1]:.4f}">
+        <span class="row-thumb">{img(p['cover'], '(max-width: 800px) 100vw, 200px', alt='')}</span>
         <span class="row-title" style="view-transition-name: {vt(p['slug'])}">{p['title']}{deco('spiral-blue', 'row-spiral')}</span>
         <span class="row-kind">{p['kind']}</span>
         <span class="row-year">{p['year']}</span>
-        <span class="row-thumb">{img(p['cover'], '(max-width: 800px) 100vw, 1px', alt='')}</span>
       </a>
     </li>""")
     h.append("\n  </ol>\n</section>\n")

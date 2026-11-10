@@ -8,6 +8,37 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let flip = null, portrait = false, cur = 0, P = [], N = 0;
 
+
+  /* the sound of paper: filtered noise, synthesised, nothing to download */
+  let ac = null, soundOn = true, lastR = 0;
+  try { soundOn = localStorage.getItem('fynboe-sound') !== 'off'; } catch (e) {}
+  const sndBtn = document.getElementById('sound');
+  function paintSnd() { if (sndBtn) { sndBtn.textContent = soundOn ? 'Sound on' : 'Sound off'; sndBtn.setAttribute('aria-pressed', soundOn); } }
+  paintSnd();
+  if (sndBtn) sndBtn.onclick = () => { soundOn = !soundOn; paintSnd(); try { localStorage.setItem('fynboe-sound', soundOn ? 'on' : 'off'); } catch (e) {} };
+  function rustle() {
+    if (!soundOn || reduce || Date.now() - lastR < 250) return;
+    lastR = Date.now();
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === 'suspended') ac.resume();
+      const t = ac.currentTime, len = 0.75, sr = ac.sampleRate;
+      const buf = ac.createBuffer(1, sr * len, sr), d = buf.getChannelData(0);
+      let b = 0;
+      for (let i = 0; i < d.length; i++) {            // brownish noise with paper "crackle"
+        b = (b + (Math.random() * 2 - 1) * 0.12) * 0.985;
+        d[i] = b * 2.2 + (Math.random() < 0.004 ? (Math.random() - .5) * 0.9 : 0);
+      }
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.7;
+      bp.frequency.setValueAtTime(900, t); bp.frequency.exponentialRampToValueAtTime(3200, t + 0.35); bp.frequency.exponentialRampToValueAtTime(700, t + len);
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32, t + 0.12);
+      g.gain.exponentialRampToValueAtTime(0.18, t + 0.45); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+      src.connect(bp).connect(g).connect(ac.destination); src.start(t); src.stop(t + len);
+    } catch (e) {}
+  }
+
   const idx = id => { if (!id) return null; const i = P.findIndex(p => p.dataset.id === id); return i < 0 ? null : i; };
 
   function make(start) {
@@ -15,22 +46,24 @@
     portrait = !(vw >= 820 && vw / vh > 1.15);
     document.body.classList.toggle('portrait', portrait);
     let pw, ph;
-    if (!portrait) { ph = Math.min(vh - 140, (vw - 120) / 2 / 0.75); pw = ph * 0.75; }
+    if (!portrait) { ph = Math.min(vh - 180, (vw - 240) / 2 / 0.75); pw = ph * 0.75; }
     else { pw = Math.min(vw - 20, (vh - 140) * 0.75); ph = pw / 0.75; }
     pw = Math.floor(pw); ph = Math.floor(ph);
     if (flip) { try { flip.destroy(); } catch (e) {} }
-    holder.innerHTML = SNAPSHOT;
+    const old = document.getElementById('book'); if (old) old.remove();
+    holder.insertAdjacentHTML('beforeend', SNAPSHOT);
     const book = document.getElementById('book');
     P = [...book.querySelectorAll('.page')]; N = P.length;
     holder.style.width = (portrait ? pw : pw * 2) + 'px';
     holder.style.height = ph + 'px';
     flip = new St.PageFlip(book, {
       width: pw, height: ph, size: 'fixed', showCover: true, usePortrait: portrait,
-      flippingTime: reduce ? 1 : 850, maxShadowOpacity: .45, drawShadow: true,
+      flippingTime: reduce ? 1 : 1050, maxShadowOpacity: .6, drawShadow: true,
       mobileScrollSupport: false, showPageCorners: true, startPage: start || 0, swipeDistance: 25,
     });
     flip.loadFromHTML(P);
     flip.on('flip', e => { cur = e.data; update(); });
+    flip.on('changeState', e => { if (e.data === 'flipping' || e.data === 'user_fold') rustle(); });
     cur = start || 0; update();
   }
 
@@ -66,7 +99,13 @@
     for (let i = vis[0]; i >= 0 && !id; i--) id = P[i].dataset.id;
     whereEl.innerHTML = `<b>${label}</b><span>${num}</span>`;
     prevB.disabled = cur === 0; nextB.disabled = vis[vis.length - 1] >= N - 1;
-    prog.style.width = (cur / (N - 1) * 100) + '%';
+    if (prog) prog.style.width = (cur / (N - 1) * 100) + '%';
+    // paper stacks on either side: thicker on the side you have already read
+    const read = portrait ? 0 : vis[0] / (N - 1), MAX = Math.max(4, Math.min(12, innerWidth / 140));
+    holder.style.setProperty('--lt', (cur === 0 ? 0 : Math.max(2, read * MAX)) + 'px');
+    holder.style.setProperty('--rt', (vis[vis.length - 1] >= N - 1 ? 0 : Math.max(2, (1 - read) * MAX)) + 'px');
+    holder.classList.toggle('closed', cur === 0);
+    holder.classList.toggle('closed-back', !portrait && vis[vis.length - 1] >= N - 1 && vis.length === 1);
     if (id && location.hash.slice(1) !== id) { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
     films();
   }

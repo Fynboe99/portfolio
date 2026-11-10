@@ -12,20 +12,22 @@
 <link rel="canonical" href="https://bastianfynboe.xyz/issue/">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="preload" href="/assets/fonts/issue/fraunces-latin-full-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/issue/issue.css?v=1">
+<link rel="stylesheet" href="/assets/issue/issue.css?v=2">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 <a class="skip" href="/">Skip to the standard site</a>
+<div class="table" aria-hidden="true"></div>
 <header class="ui ui-top">
   <a class="brand" href="#cover" data-go="cover">Bastian Fynboe</a>
   <nav class="nav">
     <a href="#contents" data-go="contents">Index</a>
     <a href="#masthead" data-go="masthead">Contact</a>
     <a href="/" class="plain">Standard site</a>
+    <button id="sound" class="snd" aria-pressed="true" title="Page sound">Sound on</button>
   </nav>
 </header>
-<main id="stage"><div id="holder"><div id="book">
+<main id="stage"><div id="holder"><div class="stack l"></div><div class="stack r"></div><div id="book">
 <section class="page  cover" data-id="cover" data-sec="Cover" id="p-cover" aria-label="Page 1">
   <div class="cv-bg"></div>
   <div class="cv-top"><span>No. 01</span><span>The independent journal of one graphic designer</span><span>Kr. 4,50</span></div>
@@ -366,13 +368,13 @@
 </div></div></main>
 <div class="ui ui-bot">
   <div class="pager">
-    <button id="prev" aria-label="Previous page">←</button>
+    <button id="prev" aria-label="Previous page">← prev</button>
     <div class="where" id="where" aria-live="polite"><b>Cover</b><span>No. 01 · Winter 2026</span></div>
-    <button id="next" aria-label="Next page">→</button>
+    <button id="next" aria-label="Next page">next →</button>
   </div>
 </div>
-<div class="progress" id="progress"></div>
-<script src="/assets/issue/page-flip.browser.js?v=1"></script>
-<script src="/assets/issue/issue.js?v=1"></script>
+<div class="lamp" aria-hidden="true"></div>
+<script src="/assets/issue/page-flip.browser.js?v=2"></script>
+<script src="/assets/issue/issue.js?v=2"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ SITE = {
 
 INTRO = {
         "hello": "Hi, I'm Bastian.",
-    "text": "I'm a brand and visual identity designer in Copenhagen. Before that I spent years in film and TV, so I care a lot about the story.",
+    "text": "I'm a brand and visual identity designer in Copenhagen. Before that I spent years in film and TV, so I care a lot about the story. Right now I'm open to junior roles and freelance identity work.",
     "facts": [
         ("Now", "Open to junior roles and freelance identity work"),
         ("Education", "KEA, Entrepreneurship &amp; Design, 2024–2026"),

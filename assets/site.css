@@ -48,9 +48,8 @@ a { color: inherit; text-decoration: none; }
 
 .label {
   display: block;
-  font-size: 12px; line-height: 1.4; font-weight: 500;
-  letter-spacing: .02em;
-  color: var(--mute);
+  font-size: inherit; line-height: inherit; font-weight: 550;
+  color: var(--ink);
 }
 .num { font-variant-numeric: tabular-nums; }
 
@@ -123,13 +122,12 @@ section, header, figure, .case-body > * { position: relative; }
 
 /* Work index */
 .work { padding-top: clamp(64px, 12vh, 140px); }
-.index { border-top: 1px solid var(--ink); }
 .index { list-style: none; margin: 0; padding: 0; }
-.index li { border-bottom: 1px solid var(--line); }
+.index li { }
 .row {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto 9ch;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   column-gap: clamp(12px, 2vw, 28px);
   padding: clamp(14px, 2.2vh, 22px) 0;
@@ -168,15 +166,16 @@ section, header, figure, .case-body > * { position: relative; }
 /* About */
 .about {
   display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(24px, 5vw, 80px);
-  margin-top: clamp(120px, 18vh, 200px); padding-top: 28px; border-top: 1px solid var(--ink);
+  margin-top: clamp(120px, 18vh, 200px);
 }
-.about > .label { grid-column: 1 / -1; padding-bottom: 12px; margin-bottom: 28px; border-bottom: 1px solid var(--ink); }
+.about > .label { grid-column: 1 / -1; margin-bottom: 28px; }
 .about-body { grid-column: 1 / -1; columns: 2; column-gap: clamp(24px, 5vw, 80px); position: relative; z-index: 1; }
 .about-body p { margin: 0 0 1em; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.5; break-inside: avoid; }
 .about-body p:first-child { font-size: clamp(22px, 2.1vw, 30px); line-height: 1.25; font-weight: 400; letter-spacing: -.01em; column-span: all; max-width: 34ch; margin-bottom: 1.2em; }
 .about-ring { right: 4%; top: 22%; width: min(26vw, 340px); opacity: .55; }
-.about-lists { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); position: relative; z-index: 1; }
-.about-list ul { list-style: none; margin: 8px 0 0; padding: 0; font-size: 15px; }
+.about-lists { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; position: relative; z-index: 1; }
+.about-list { font-size: 17px; line-height: 1.5; }
+.about-list ul { list-style: none; margin: 6px 0 0; padding: 0; }
 .about-list li { padding: 3px 0; }
 
 /* Contact */
@@ -206,8 +205,8 @@ section, header, figure, .case-body > * { position: relative; }
 /* Footer */
 .foot {
   display: flex; gap: 24px; justify-content: space-between; flex-wrap: wrap;
-  margin: 0 var(--pad); padding: 18px 0 28px; border-top: 1px solid var(--line);
-  font-size: 14px; color: var(--mute);
+  margin: 0 var(--pad); padding: 18px 0 28px;
+  font-size: 15px; color: var(--ink);
 }
 
 /* Case pages */
@@ -225,9 +224,8 @@ section, header, figure, .case-body > * { position: relative; }
 }
 .case-lead { max-width: 30ch; margin: 28px 0 0; font-size: clamp(21px, 2.2vw, 32px); line-height: 1.22; font-weight: 350; letter-spacing: -.01em; }
 .case-meta {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-  margin-top: clamp(36px, 6vh, 64px); padding-top: 16px; border-top: 1px solid var(--ink);
-  font-size: 15px;
+  margin-top: clamp(28px, 4vh, 44px);
+  font-size: 17px; line-height: 1.6;
 }
 .case-meta > div { display: flex; flex-direction: column; gap: 4px; }
 .case-cover { margin: 0 calc(var(--pad) * -1); }
@@ -239,7 +237,7 @@ section, header, figure, .case-body > * { position: relative; }
   margin: 0 0 clamp(72px, 12vh, 140px);
 }
 .text-block p { margin: 0; max-width: 52ch; font-size: clamp(17px, 1.3vw, 20px); line-height: 1.55; }
-.text-block .label { padding-top: 5px; font-size: 14px; color: var(--ink); }
+.text-block .label { font-size: clamp(17px, 1.3vw, 20px); line-height: 1.55; }
 
 .fig { margin: 0 0 clamp(48px, 8vh, 104px); }
 .row-fig { display: flex; gap: clamp(8px, 1.4vw, 20px); align-items: flex-start; }
@@ -248,9 +246,9 @@ section, header, figure, .case-body > * { position: relative; }
 .fig--solo .row-fig { max-width: 720px; margin: 0 auto; }
 .fig--solo.tall .row-fig { max-width: 420px; }
 .fig--solo figcaption { text-align: center; margin-left: auto; margin-right: auto; }
-figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 60ch; }
+figcaption { margin-top: 12px; font-size: 15px; color: #4d4740; max-width: 60ch; }
 
-.next { display: block; margin-top: clamp(40px, 8vh, 96px); padding-top: 18px; border-top: 1px solid var(--ink); }
+.next { display: block; margin-top: clamp(40px, 8vh, 96px); }
 .next-title {
   position: relative; display: inline-block; margin-top: 8px;
   font-size: clamp(44px, 8vw, 132px); line-height: .95; font-weight: 600;
@@ -307,11 +305,10 @@ figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 6
   .hero-face { justify-self: start; width: min(80%, 340px); margin: 32px 0 0; }
   .hero-dots { width: 90vw; top: 30%; right: -20%; }
   .hero-flower { width: 52vw; bottom: auto; top: 6%; left: auto; right: -14%; opacity: .5; }
-  .facts, .about-lists, .case-meta { grid-template-columns: 1fr; gap: 16px; }
-  .row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+  .about-lists { grid-template-columns: 1fr; gap: 24px; }
+  .row { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
   .row-title { grid-column: 1; grid-row: 1; }
-  .row-kind { grid-column: 1; grid-row: 2; }
-  .row-year { grid-column: 2; grid-row: 1; }
+  .row-thumb { grid-row: 2; }
   .row-thumb { display: block; grid-column: 1 / -1; grid-row: 3; margin-top: 10px; }
   .row-thumb img { width: 100%; height: auto; }
   .about { grid-template-columns: 1fr; }
@@ -325,7 +322,7 @@ figcaption { margin-top: 10px; font-size: 14px; color: var(--mute); max-width: 6
 }
 
 
-/* ==== ANALOG LAYER — paper grain, images as prints, stop-motion timing ==== */
+/* ==== ANALOG LAYER — paper grain and images as prints ==== */
 /* Remove this whole block to go back to the clean digital look. */
 
 /* 1. Paper grain over everything */
@@ -352,18 +349,3 @@ body::after {
 .contact-face .face-photo { rotate: -1.5deg; }
 .preview { background-color: #fffdf7; background-origin: content-box; padding: 12px; box-sizing: content-box; }
 
-/* 3. Stop-motion timing instead of smooth digital easing */
-.hello .w > span { animation-timing-function: steps(5, end); }
-.intro-seq .hero-lead, .intro-seq .case-title, .intro-seq .case-lead { animation-timing-function: steps(4, end); }
-.js .reveal-img .row-fig, .js .reveal-img > img { transition: clip-path .9s steps(6, end); }
-.js .reveal-img img, .js .reveal-img video { transition: transform .9s steps(6, end); }
-@keyframes boil {
-  0%   { translate: 0 0;      }
-  33%  { translate: .4px -.3px; }
-  66%  { translate: -.3px .3px; }
-}
-.brand-mark { animation: boil .5s steps(1) infinite; }
-
-@media (prefers-reduced-motion: reduce) {
-  .brand-mark { animation: none; }
-}

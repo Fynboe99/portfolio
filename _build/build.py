@@ -116,7 +116,7 @@ def contact_block():
     <a class="contact-mail" href="mailto:{SITE['email']}">{SITE['email']}</a>
     <a class="contact-phone" href="tel:{tel}">{SITE['phone']}</a>
   </div>
-  <div class="contact-face">{video('portrait')}</div>
+  <div class="contact-face"><img class="face-photo" src="/assets/img/portrait-photo.webp" width="359" height="391" alt="Bastian Fynboe"></div>
 </section>
 """
 
@@ -130,7 +130,7 @@ def index():
     <h1 class="hello">{words(INTRO['hello'])}</h1>
     <p class="hero-lead">{INTRO['text']}</p>
   </div>
-  <div class="hero-face">{video('portrait')}</div>
+  <div class="hero-face"><img class="face-photo" src="/assets/img/portrait-photo.webp" width="359" height="391" alt="Bastian Fynboe"></div>
   <div class="facts">{facts}</div>
 </section>
 
@@ -142,7 +142,7 @@ def index():
     <li>
       <a class="row" href="/work/{p['slug']}/" data-preview="/assets/img/{p['cover']}-1000.webp" data-ratio="{DIMS[p['cover']][0] / DIMS[p['cover']][1]:.4f}">
         <span class="row-thumb">{img(p['cover'], '(max-width: 800px) 100vw, 200px', alt='')}</span>
-        <span class="row-title" style="view-transition-name: {vt(p['slug'])}">{p['title']}{deco('spiral-blue', 'row-spiral')}</span>
+        <span class="row-title" style="view-transition-name: {vt(p['slug'])}">{p['title']}</span>
         <span class="row-kind">{p['kind']}</span>
         <span class="row-year">{p['year']}</span>
       </a>
@@ -210,7 +210,7 @@ def case(i, p):
   </div>
   <a class="next" href="/work/{nxt['slug']}/">
     <span class="label">Next project</span>
-    <span class="next-title"><span style="view-transition-name: {vt(nxt['slug'])}">{nxt['title']}</span> {deco('spiral-blue', 'next-spiral')}</span>
+    <span class="next-title"><span style="view-transition-name: {vt(nxt['slug'])}">{nxt['title']}</span></span>
   </a>
 </article>
 """)
